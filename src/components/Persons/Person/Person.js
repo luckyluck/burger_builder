@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import styles from './Person.css';
 
-const person = (props) => {
-    return (
-        <div className={styles.Person}>
-            <p onClick={props.click}>
-                I'm a {props.name} and I am {props.age} years old!
-            </p>
-            {props.children ? <p onClick={props.click}>{props.children}</p> : null}
-            <input type="text" onChange={props.changed} value={props.name} />
-        </div>
-    );
-};
+class Person extends Component {
+    constructor(props) {
+        super(props);
+        console.log('[Person.js] Inside Constructor', props);
+    }
 
-export default person;
+    componentWilMount() {
+        console.log('[Person.js] Inside componentWilMount()');
+    }
+
+    componentDidMount() {
+        console.log('[Person.js] Inside componentDidMount()');
+    }
+
+    render() {
+        console.log('[Person.js] Inside render()');
+
+        return (
+            <div className={styles.Person}>
+                <p onClick={this.props.click}>
+                    I'm a {this.props.name} and I am {this.props.age} years old!
+                </p>
+                {this.props.children ? <p onClick={this.props.click}>{this.props.children}</p> : null}
+                <input type="text" onChange={this.props.changed} value={this.props.name} />
+            </div>
+        );
+    }
+}
+
+export default Person;
