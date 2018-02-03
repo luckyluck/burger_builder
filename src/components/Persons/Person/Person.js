@@ -17,6 +17,9 @@ class Person extends Component {
 
     componentDidMount() {
         console.log('[Person.js] Inside componentDidMount()');
+        if (this.props.position === 0) {
+            this.inputElement.focus();
+        }
     }
 
     render() {
@@ -28,7 +31,9 @@ class Person extends Component {
                     I'm a {this.props.name} and I am {this.props.age} years old!
                 </p>
                 {this.props.children ? <p onClick={this.props.click}>{this.props.children}</p> : null}
+                {/* references are available only in stateful components */}
                 <input
+                    ref={(inp) => { this.inputElement = inp; }}
                     type="text"
                     onChange={this.props.changed}
                     value={this.props.name}
