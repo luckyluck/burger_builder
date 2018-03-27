@@ -1,9 +1,10 @@
 import React from 'react';
+
 import Auxiliary from '../../hoc/Auxiliary';
 
 import styles from './Layout.css';
 
-const layout = (props) => (
+const layout = props => (
     <Auxiliary>
         <div>Toolbar, SideDrawer, Backdrop</div>
         <main className={styles.Content}>
