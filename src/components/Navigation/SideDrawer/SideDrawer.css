@@ -21,10 +21,17 @@
 
 .Logo {
     height: 11%;
+    margin-bottom: 32px;
 }
 
 @media (min-width: 500px) {
     .SideDrawer {
+        display: none;
+    }
+}
+
+@media (max-width: 499px) {
+    .DesktopOnly {
         display: none;
     }
 }
