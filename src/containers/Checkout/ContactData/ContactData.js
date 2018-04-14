@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import _ from 'lodash';
+import Validator from 'validator';
 
 import axios from '../../../axios-orders';
 import Button from '../../../components/UI/Button/Button';
@@ -18,7 +19,11 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Your Name'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false
             },
             street:  {
                 elementType: 'input',
@@ -26,7 +31,11 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Street'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false
             },
             zipCode: {
                 elementType: 'input',
@@ -34,7 +43,13 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'ZIP Code'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 5
+                },
+                valid: false
             },
             country: {
                 elementType: 'input',
@@ -42,7 +57,11 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Country'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false
             },
             email: {
                 elementType: 'input',
@@ -50,7 +69,11 @@ class ContactData extends Component {
                     type: 'email',
                     placeholder: 'Your Email'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -60,7 +83,11 @@ class ContactData extends Component {
                         { value: 'cheapest', displayName: 'Cheapest' }
                     ]
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false
             }
         },
         loading: false
@@ -92,10 +119,31 @@ class ContactData extends Component {
             });
     };
 
+    checkValidity = (value, rules) => {
+        let isValid = true;
+
+        if (rules.required) {
+            isValid = !Validator.isEmpty(value.trim());
+        }
+
+        if (rules.minLength) {
+            isValid = isValid && value.trim().length >= rules.minLength;
+        }
+
+        if (rules.maxLength) {
+            isValid = isValid && value.trim().length <= rules.maxLength;
+        }
+
+        return isValid;
+    };
+
     inputChangedHandler = (event, inputIdentifier) => {
         const updatedOrderForm = _.cloneDeep(this.state.orderForm);
+        const updatedElement = updatedOrderForm[inputIdentifier];
 
-        updatedOrderForm[inputIdentifier].value = event.target.value;
+        updatedElement.value = event.target.value;
+        updatedElement.valid = this.checkValidity(event.target.value, updatedElement.validation);
+        console.log(updatedElement);
 
         this.setState({ orderForm: updatedOrderForm });
     };
