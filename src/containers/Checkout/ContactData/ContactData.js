@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import _ from 'lodash';
+
 import axios from '../../../axios-orders';
 import Button from '../../../components/UI/Button/Button';
 
@@ -74,12 +76,20 @@ class ContactData extends Component {
         };
 
         axios.post('/orders.json', order)
-            .then(response => {
+            .then(() => {
                 this.setState({ loading: false });
                 this.props.history.push('/');
-            }).catch(error => {
+            }).catch(() => {
                 this.setState({ loading: false });
             });
+    };
+
+    inputChangedHandler = (event, inputIdentifier) => {
+        const updatedOrderForm = _.cloneDeep(this.state.orderForm);
+
+        updatedOrderForm[inputIdentifier].value = event.target.value;
+
+        this.setState({ orderForm: updatedOrderForm });
     };
 
     render() {
@@ -102,6 +112,7 @@ class ContactData extends Component {
                         elementType={formElement.config.elementType}
                         elementConfig={formElement.config.elementConfig}
                         value={formElement.config.value}
+                        changed={event => this.inputChangedHandler(event, formElement.id)}
                     />
                 ))}
                 <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
