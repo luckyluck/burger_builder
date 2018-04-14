@@ -6,23 +6,25 @@ import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
     state = {
-        ingredients: {
-            salad: 0,
-            meat: 0,
-            cheese: 0,
-            bacon: 0
-        }
+        ingredients: null,
+        totalPrice: 0
     };
 
-    componentDidMount() {
+    componentWillMount() {
         // TODO add polyfill for other browsers
         const query = new URLSearchParams(this.props.location.search);
         const ingredients = {};
+        let price = 0;
 
         for (const param of query.entries()) {
+            if (param[0] === 'price') {
+                price = param[1];
+                continue;
+            }
+
             ingredients[param[0]] = param[1];
         }
-        this.setState({ ingredients });
+        this.setState({ ingredients, totalPrice: price });
     }
 
     onCheckoutCanceledHandler = () => {
@@ -41,7 +43,16 @@ class Checkout extends Component {
                     onCheckoutCanceled={this.onCheckoutCanceledHandler}
                     onCheckoutContinued={this.onCheckoutContinuedHandler}
                 />
-                <Route path={this.props.match.path + '/contact-data'} component={ContactData} />
+                <Route
+                    path={this.props.match.path + '/contact-data'}
+                    render={props => (
+                        <ContactData
+                            ingredients={this.state.ingredients}
+                            price={this.state.totalPrice}
+                            {...props}
+                        />
+                    )}
+                />
             </div>
         );
     }
