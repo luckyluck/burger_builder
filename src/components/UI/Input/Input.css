@@ -25,3 +25,9 @@
     outline: none;
     background-color: #ccc;
 }
+
+.Invalid,
+.Invalid:focus {
+    border: 1px solid red;
+    background-color: #fda49a;
+}
