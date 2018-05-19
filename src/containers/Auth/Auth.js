@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { isEmail } from 'validator';
-import _ from 'lodash';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
