@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import * as actionTypes from '../../store/actions/actionTypes';
+import * as actions from '../../store/actions';
 
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
 import Burger from '../../components/Burger/Burger';
@@ -51,7 +51,7 @@ class BurgerBuilder extends Component {
             ...this.props.ingredients
         };
 
-        for (const key in disabledInfo) {
+        for (const key of Object.keys(disabledInfo)) {
             disabledInfo[key] = disabledInfo[key] === 0;
         }
 
@@ -99,8 +99,8 @@ const mapStateToProps = state => ({
     totalPrice: state.totalPrice
 });
 const mapDispatchToProps = dispatch =>({
-    onIngredientAdded: ingredientName => dispatch({ type: actionTypes.ADD_INGREDIENT, ingredientName }),
-    onIngredientRemoved: ingredientName => dispatch({ type: actionTypes.REMOVE_INGREDIENT, ingredientName })
+    onIngredientAdded: ingredientName => dispatch(actions.addIngredient(ingredientName)),
+    onIngredientRemoved: ingredientName => dispatch(actions.removeIngredient(ingredientName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
