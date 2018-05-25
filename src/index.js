@@ -7,7 +7,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import reducer from './store/reducer';
+import burgerBuilder from './store/reducers/BurgerBuilder';
 
 const logger = store => {
     return next => {
@@ -26,7 +26,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /* eslint-enable */
 
 const store = createStore(
-    reducer,
+    burgerBuilder,
     composeEnhancers(applyMiddleware(logger))
 );
 
