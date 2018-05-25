@@ -5,8 +5,14 @@ const initialState = {
     loading: false
 };
 
-const reducer = (state = initialState, action) => {
+const order = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.PURCHASE_BURGER_START: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
         case actionTypes.PURCHASE_BURGER_SUCCESS: {
             return {
                 ...state,
@@ -28,4 +34,4 @@ const reducer = (state = initialState, action) => {
     }
 };
 
-export default reducer;
+export default order;
