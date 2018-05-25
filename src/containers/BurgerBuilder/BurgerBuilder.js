@@ -36,15 +36,15 @@ class BurgerBuilder extends Component {
         this.props.history.push('/checkout');
     };
 
-    // componentDidMount = () => {
-        // axios.get('ingredients.json')
-        //     .then(response => {
-        //         this.setState({ ingredients: response.data });
-        //     })
-        //     .catch(error => {
-        //         this.setState({ error: true });
-        //     });
-    // };
+    componentDidMount () {
+        axios.get('ingredients.json')
+            .then(response => {
+                this.setState({ ingredients: response.data });
+            })
+            .catch(() => {
+                this.setState({ error: true });
+            });
+    }
 
     render() {
         const disabledInfo = {
