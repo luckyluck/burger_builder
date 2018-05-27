@@ -6,7 +6,6 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
-
     onCheckoutCanceledHandler = () => {
         this.props.history.goBack();
     };
@@ -19,7 +18,10 @@ class Checkout extends Component {
         let summary = <Redirect to="/"/>;
 
         if (this.props.ingredients) {
+            const purchasedRedirect = this.props.purchased ? <Redirect to="/"/> : null;
+
             summary = (<div>
+                {purchasedRedirect}
                 <CheckoutSummary
                     ingredients={this.props.ingredients}
                     onCheckoutCanceled={this.onCheckoutCanceledHandler}
@@ -37,7 +39,8 @@ class Checkout extends Component {
 }
 
 const mapStateToProps = state => ({
-    ingredients: state.burgerBuilder.ingredients
+    ingredients: state.burgerBuilder.ingredients,
+    purchased: state.order.purchased
 });
 
 export default connect(mapStateToProps)(Checkout);

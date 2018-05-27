@@ -18,6 +18,10 @@ class BurgerBuilder extends Component {
         purchasing: false
     };
 
+    componentDidMount () {
+        this.props.onInitIngredients();
+    }
+
     purchaseHandler = () => {
         this.setState({ purchasing: true });
     };
@@ -31,12 +35,9 @@ class BurgerBuilder extends Component {
     };
 
     purchaseContinueHandler = () => {
+        this.props.onPurchaseInit();
         this.props.history.push('/checkout');
     };
-
-    componentDidMount () {
-        this.props.onInitIngredients();
-    }
 
     render() {
         const disabledInfo = {
@@ -90,7 +91,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>({
     onIngredientAdded: ingredientName => dispatch(actions.addIngredient(ingredientName)),
     onIngredientRemoved: ingredientName => dispatch(actions.removeIngredient(ingredientName)),
-    onInitIngredients: () => dispatch(actions.initIngredients())
+    onInitIngredients: () => dispatch(actions.initIngredients()),
+    onPurchaseInit: () => dispatch(actions.purchaseInit())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
