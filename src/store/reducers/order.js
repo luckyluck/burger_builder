@@ -14,6 +14,7 @@ const order = (state = initialState, action) => {
                 purchased: false
             };
         }
+        case actionTypes.FETCH_ORDERS_START:
         case actionTypes.PURCHASE_BURGER_START: {
             return {
                 ...state,
@@ -31,10 +32,18 @@ const order = (state = initialState, action) => {
                 })
             };
         }
+        case actionTypes.FETCH_ORDERS_FAILED:
         case actionTypes.PURCHASE_BURGER_FAIL: {
             return {
                 ...state,
                 loading: false
+            };
+        }
+        case actionTypes.FETCH_ORDERS_SUCCESS: {
+            return {
+                ...state,
+                loading: false,
+                orders: action.orders
             };
         }
         default:
