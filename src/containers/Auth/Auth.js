@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { isEmail } from 'validator';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import * as actions from '../../store/actions';
 
@@ -140,9 +141,15 @@ class Auth extends Component {
         if (this.props.error) {
             errorMessage = <p>{this.props.error.message}</p>
         }
+        
+        let authRedirect = null;
+        if (this.props.isAuthenticated) {
+            authRedirect = <Redirect to="/"/>;
+        }
 
         return (
             <div className={classes.Auth}>
+                {authRedirect}
                 {errorMessage}
                 <form onSubmit={this.submitHandler}>
                     {form}
@@ -158,7 +165,8 @@ class Auth extends Component {
 
 const mapStateToProps = state => ({
     loading: state.auth.loading,
-    error: state.auth.error
+    error: state.auth.error,
+    isAuthenticated: state.auth.token !== null
 });
 const mapDispatchToProps = dispatch => ({
     onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp))
