@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actions from './store/actions';
@@ -21,11 +21,12 @@ class App extends Component {
             <div>
                 <Layout>
                     <Switch>
-                        <Route path="/checkout" component={Checkout} />
-                        <Route path="/orders" component={Orders} />
-                        <Route path="/auth" component={Auth} />
-                        <Route path="/logout" component={Logout} />
-                        <Route path="/" component={BurgerBuilder} />
+                        {this.props.isAuthenticated ? <Route path="/checkout" component={Checkout} /> : null}
+                        {this.props.isAuthenticated ? <Route path="/orders" component={Orders} /> : null}
+                        {!this.props.isAuthenticated ? <Route path="/auth" component={Auth} /> : null}
+                        {this.props.isAuthenticated ? <Route path="/logout" component={Logout} /> : null}
+                        <Route path="/" exact component={BurgerBuilder} />
+                        <Redirect to="/"/>
                     </Switch>
                 </Layout>
             </div>
@@ -33,8 +34,11 @@ class App extends Component {
     }
 }
 
+const mapPropsToState = state => ({
+    isAuthenticated: state.auth.token !== null
+});
 const mapDispatchToProps = dispatch => ({
     onTryAutoSignUp: () => dispatch(actions.authCheckState())
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+export default withRouter(connect(mapPropsToState, mapDispatchToProps)(App));
