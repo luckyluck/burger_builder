@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 
-import axios from '../../../axios-orders';
+import axios from '../../../shared/axios-orders';
 import Button from '../../../components/UI/Button/Button';
 import * as actions from '../../../store/actions';
 import { checkValidity } from '../../../shared/utility';
