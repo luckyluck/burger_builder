@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import Validator from 'validator';
 import { connect } from 'react-redux';
 
 import axios from '../../../axios-orders';
 import Button from '../../../components/UI/Button/Button';
 import * as actions from '../../../store/actions';
+import { checkValidity } from '../../../shared/utility';
 
 import classes from './ContactData.css';
 import Spinner from '../../../components/UI/Spinner/Spinner';
@@ -118,34 +118,12 @@ class ContactData extends Component {
         this.props.onOrderBurger(order, this.props.token);
     };
 
-    checkValidity = (value, rules) => {
-        let isValid = true;
-
-        if (!rules) {
-            return isValid;
-        }
-
-        if (rules.required) {
-            isValid = !Validator.isEmpty(value.trim());
-        }
-
-        if (rules.minLength) {
-            isValid = isValid && value.trim().length >= rules.minLength;
-        }
-
-        if (rules.maxLength) {
-            isValid = isValid && value.trim().length <= rules.maxLength;
-        }
-
-        return isValid;
-    };
-
     inputChangedHandler = (event, inputIdentifier) => {
         const updatedOrderForm = _.cloneDeep(this.state.orderForm);
         const updatedElement = updatedOrderForm[inputIdentifier];
 
         updatedElement.value = event.target.value;
-        updatedElement.valid = this.checkValidity(event.target.value, updatedElement.validation);
+        updatedElement.valid = checkValidity(event.target.value, updatedElement.validation);
         updatedElement.touched = true;
 
         let formIsValid = true;
