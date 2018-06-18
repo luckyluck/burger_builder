@@ -40,7 +40,7 @@ const reducer = (state = initialState, action) => {
                 userId: null
             };
         }
-        case actionTypes.SET_AUTH_REDICRECT_PATH: {
+        case actionTypes.SET_AUTH_REDIRECT_PATH: {
             return {
                 ...state,
                 authRedirect: action.path
